@@ -15,8 +15,12 @@ func main() {
 	input := string(data)
 	lines := strings.Split(input, "\n")
 	result := 0
-	for _, line := range lines {
-		res := -1
+	copies := make([]int, len(lines))
+	for i := range copies {
+		copies[i] = 1
+	}
+	for i, line := range lines {
+		res := 0
 		if len(line) < 1{
 			continue
 		}
@@ -30,7 +34,6 @@ func main() {
 			if len(target) <= 0 {
 				continue
 			}
-			fmt.Println("target:", target)
 			for _, n := range numbers {
 				if n == target {
 					res++
@@ -39,9 +42,15 @@ func main() {
 			}
 
 		}
-		if res >= 0 {
-			result += (power(2, res))
+		if res > 0 {
+			for j := 0; j < res; j++ {
+				copies[i+j+1] += copies[i]
+			}
+			
 		}
+	}
+	for _, x := range copies{
+		result += x
 	}
 	fmt.Println("result: ", result)
 
